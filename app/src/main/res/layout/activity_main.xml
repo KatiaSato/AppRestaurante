@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Mesa"/>
+
+
+
+    <TextView
+        android:id="@+id/corpo1"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_height="wrap_content"
+        android:text="Olá!" />
+
+    <TextView
+        android:id="@+id/corpo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/corpo1"
+        android:fontFamily="@font/fraunces_thin"
+        android:text="Onde você quer"
+        android:textSize="24dp" />
+    <TextView
+        android:id="@+id/corpo3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/corpo2"
+        android:fontFamily="@font/fraunces_thin"
+        android:text="Comer hoje?"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/corpo4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/corpo3"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/inter_thin"
+        android:text="Salve restaurantes que você quer conhecer, registre os que já visitou e tenha sempre à mão seus favoritos do delivery."
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        />
+
+
+</RelativeLayout>
