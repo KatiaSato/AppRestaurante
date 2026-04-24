@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -23,7 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_below="@id/toolbar"
         android:layout_height="wrap_content"
-        android:text="Olá!" />
+        android:text="Olá!"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        style="@style/TextAppearance.AppCompat.Small"/>
 
     <TextView
         android:id="@+id/corpo2"
@@ -32,7 +35,9 @@
         android:layout_below="@id/corpo1"
         android:fontFamily="@font/fraunces_thin"
         android:text="Onde você quer"
-        android:textSize="24dp" />
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"/>
     <TextView
         android:id="@+id/corpo3"
         android:layout_width="wrap_content"
@@ -40,7 +45,8 @@
         android:layout_below="@id/corpo2"
         android:fontFamily="@font/fraunces_thin"
         android:text="Comer hoje?"
-        android:textSize="24dp"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginStart="20dp"
         />
 
     <TextView
@@ -48,12 +54,148 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/corpo3"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/inter_thin"
         android:text="Salve restaurantes que você quer conhecer, registre os que já visitou e tenha sempre à mão seus favoritos do delivery."
         android:textColor="@color/black"
-        android:textSize="10dp"
-        />
+        style="@style/TextAppearance.AppCompat.Small" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/corpo4"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp"
+                android:padding="9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="LISTA DE DESEJOS"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quero ir" />
+
+                <TextView
+                    android:id="@+id/queroIr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
 
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card1"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp"
+                android:padding="9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="MEMORIAS"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Já fui" />
+
+                <TextView
+                    android:id="@+id/jafui"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card2"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="20dp"
+                android:padding="9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="DIRETO NA PORTA"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pedi no Delivery" />
+
+                <TextView
+                    android:id="@+id/delivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
