@@ -82,19 +82,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:padding="9dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="LISTA DE DESEJOS"
+                    style="@style/TextAppearance.AppCompat.Small"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quero ir" />
+                    android:fontFamily="@font/fraunces_thin"
+                    android:text="Quero ir"
+                    style="@style/TextAppearance.AppCompat.Large"/>
 
                 <TextView
                     android:id="@+id/queroIr"
@@ -128,19 +131,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:padding="9dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="MEMORIAS"
+                    style="@style/TextAppearance.AppCompat.Small"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Já fui" />
+                    android:fontFamily="@font/fraunces_thin"
+                    android:text="Já fui"
+                    style="@style/TextAppearance.AppCompat.Large"/>
 
                 <TextView
                     android:id="@+id/jafui"
@@ -173,19 +179,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:padding="9dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="DIRETO NA PORTA"
+                    style="@style/TextAppearance.AppCompat.Small"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pedi no Delivery" />
+                    android:fontFamily="@font/fraunces_thin"
+                    android:text="Pedi no Delivery"
+                    style="@style/TextAppearance.AppCompat.Large"/>
 
                 <TextView
                     android:id="@+id/delivery"

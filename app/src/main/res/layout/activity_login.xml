@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.1">
+        android:layout_weight="0.02">
 
         <Button
             android:id="@+id/logar"
@@ -86,6 +86,19 @@
             android:text="Entrar"
             android:layout_gravity="center"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="0.1">
+
+        <TextView
+            android:id="@+id/cadastro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não tem cadastro?"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 
