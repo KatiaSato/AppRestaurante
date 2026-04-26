@@ -14,15 +14,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/white"
+            android:layout_height="120dp"
+            android:background="@drawable/queroir_gradiente"
             android:theme="@style/ThemeOverlay.AppCompat.Light"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="0dp"
@@ -31,32 +31,50 @@
         </Toolbar>
 
         <TextView
+            android:id="@+id/texto1"
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LISTA DE DESEJOS"
+            android:fontFamily="@font/inter"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="16dp" />
+            tools:layout_editor_absoluteY="16dp"
+            android:textColor="@color/secondary"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:textSize="12dp"/>
 
         <TextView
+            android:id="@+id/texto2"
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fraunces_semibold"
             android:text="Quero ir"
+            android:textColor="@color/secondary"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="47dp"
             tools:layout_editor_absoluteY="38dp"
-            style="@style/TextAppearance.AppCompat.Large"/>
+            android:layout_below="@id/texto1"
+            android:layout_marginStart="16dp"
+            android:textSize="30dp"/>
 
         <TextView
-            android:layout_width="291dp"
-            android:layout_height="33dp"
+            android:id="@+id/texto3"
+            android:layout_width="346dp"
+            android:layout_height="30dp"
+            android:fontFamily="@font/inter"
             android:text="Lugares que estão na sua lista para conhecer."
+            android:textColor="@color/secondary"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="67dp" />
+            tools:layout_editor_absoluteY="67dp"
+            android:layout_below="@id/texto2"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="16dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,7 +15,7 @@
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Mesa"/>
+        app:title="Qualquer lugar"/>
 
 
 
@@ -26,41 +27,45 @@
         android:text="Olá!"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        style="@style/TextAppearance.AppCompat.Small"/>
+        style="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/terracota"/>
 
     <TextView
         android:id="@+id/corpo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/corpo1"
-        android:fontFamily="@font/fraunces_thin"
+        android:fontFamily="@font/fraunces_semibold"
         android:text="Onde você quer"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/corpo3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/corpo2"
-        android:fontFamily="@font/fraunces_thin"
+        android:fontFamily="@font/fraunces_semibold"
         android:text="Comer hoje?"
+        android:textColor="@color/terracota"
+        android:textStyle="bold"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_marginStart="20dp"
         />
 
     <TextView
         android:id="@+id/corpo4"
+        style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/corpo3"
-        android:layout_marginTop="11dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="11dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@font/inter_thin"
+
         android:text="Salve restaurantes que você quer conhecer, registre os que já visitou e tenha sempre à mão seus favoritos do delivery."
-        android:textColor="@color/black"
-        style="@style/TextAppearance.AppCompat.Small" />
+        android:textColor="@color/black" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card1"
@@ -70,12 +75,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/queroir_gradiente"
             >
 
             <LinearLayout
@@ -90,19 +97,22 @@
                     android:layout_height="match_parent"
                     android:text="LISTA DE DESEJOS"
                     style="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/secondary"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/fraunces_thin"
+                    android:fontFamily="@font/fraunces_semibold"
                     android:text="Quero ir"
-                    style="@style/TextAppearance.AppCompat.Large"/>
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/secondary"/>
 
                 <TextView
                     android:id="@+id/queroIr"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:textColor="@color/secondary"/>
 
 
             </LinearLayout>
@@ -125,6 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/ja_fui_gradiente"
             >
 
             <LinearLayout
@@ -139,19 +150,22 @@
                     android:layout_height="match_parent"
                     android:text="MEMORIAS"
                     style="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/secondary"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/fraunces_thin"
+                    android:fontFamily="@font/fraunces_semibold"
                     android:text="Já fui"
-                    style="@style/TextAppearance.AppCompat.Large"/>
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/secondary"/>
 
                 <TextView
                     android:id="@+id/jafui"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:textColor="@color/secondary"/>
 
 
             </LinearLayout>
@@ -173,6 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/delivery_gradiente"
             >
 
             <LinearLayout
@@ -187,19 +202,22 @@
                     android:layout_height="match_parent"
                     android:text="DIRETO NA PORTA"
                     style="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/secondary"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/fraunces_thin"
+                    android:fontFamily="@font/fraunces_semibold"
                     android:text="Pedi no Delivery"
-                    style="@style/TextAppearance.AppCompat.Large"/>
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/secondary"/>
 
                 <TextView
                     android:id="@+id/delivery"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:textColor="@color/secondary"/>
 
 
             </LinearLayout>

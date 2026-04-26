@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".Cadastro"
     android:orientation="vertical"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp">
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:text="Cadastro" />
+            android:text="Cadastro"
+            android:textColor="@color/terracota"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,18 +100,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="Cadastrar"/>
+            android:text="Cadastrar"
+            android:backgroundTint="@color/terracota"/>
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="10dp"
-            android:text="Cancelar" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

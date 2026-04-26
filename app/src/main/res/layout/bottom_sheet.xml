@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_bacground">
+    <TextView
+        android:id="@+id/text1_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quero ir"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/terracota"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"/>
+    <TextView
+        android:id="@+id/text2_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Novo Restaurante"
+        android:fontFamily="@font/fraunces_semibold"
+        android:layout_below="@+id/text1_sheet"
+        android:layout_marginStart="16dp"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:fontFamily="@font/inter"
+        android:layout_below="@+id/text2_sheet"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nome_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/nome"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        android:outlineSpotShadowColor="@color/terracota"
+        android:hint="Ex: cantina da Esquina">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/opicional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resumo (opicional)"
+        android:layout_marginStart="16dp"
+        android:layout_below="@+id/nome_sheet"
+        android:layout_marginTop="12dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/resumo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/opicional"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="Pratos favoritos, dicas, endereço..."
+            android:gravity="top"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nota (opicional)"
+        android:layout_below="@+id/resumo"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_below="@+id/nota"
+        android:layout_marginStart="16dp"
+        android:numStars="5" />
+
+    <Button
+        android:id="@+id/adicionar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adiconar na lista"
+        android:backgroundTint="@color/laranja"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@+id/ratingBar"
+        android:layout_marginTop="16dp"
+        />
+
+
+</RelativeLayout>
