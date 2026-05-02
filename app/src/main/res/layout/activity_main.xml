@@ -15,7 +15,7 @@
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Qualquer lugar"/>
+        app:title="Tô com Fome"/>
 
 
 
@@ -109,7 +109,7 @@
                     android:textColor="@color/secondary"/>
 
                 <TextView
-                    android:id="@+id/queroIr"
+                    android:id="@+id/queroIrTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/secondary"/>
@@ -225,4 +225,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "695422354640",
+    "project_id": "restaurante-ebe51",
+    "storage_bucket": "restaurante-ebe51.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695422354640:android:45ca6c9006cf3b26648ad5",
+        "android_client_info": {
+          "package_name": "com.example.ondecomer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOt1Aq6otpRaQmBwCnrOyIzGgHx8EJ31E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="460dp"
     android:background="@drawable/bottom_sheet_bacground">
     <TextView
         android:id="@+id/text1_sheet"
@@ -70,10 +70,11 @@
         android:layout_marginEnd="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/resumoinput"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:hint="Pratos favoritos, dicas, endereço..."
-            android:gravity="top"/>
+            android:gravity="top" />
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:id="@+id/nota"

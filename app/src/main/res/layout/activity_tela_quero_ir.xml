@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".TelaQueroIr">
+    tools:context=".List">
 
 <com.google.android.material.appbar.AppBarLayout
     android:id="@+id/appbar"
@@ -77,6 +77,35 @@
     </RelativeLayout>
 </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardvazio"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:visibility="gone"
+
+        android:layout_below="@+id/appbar"
+        android:layout_marginTop="100dp"
+        android:layout_marginHorizontal="80dp">
+       <TextView
+           android:layout_width="160dp"
+           android:layout_height="wrap_content"
+           android:text="Nada por aqui ainda"
+           android:layout_marginTop="30dp"
+           android:layout_marginHorizontal="50dp"
+           android:gravity="center"
+           android:fontFamily="@font/fraunces_semibold"
+           android:textSize="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adicione o primeiro restaurante para começar."
+            android:layout_marginTop="60dp"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            />
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
@@ -93,17 +122,16 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/white"
-        android:src="@drawable/baseline_add_24"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/circle"/>
-
-
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/baseline_add_24"
+        app:backgroundTint="@color/white" />
 
 
 </RelativeLayout>

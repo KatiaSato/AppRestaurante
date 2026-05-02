@@ -12,8 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.1"
-        android:background="@drawable/queroir_gradiente"/>
+        android:layout_weight="0.07"
+        android:background="@drawable/vermelho">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/fraunces_semibold"
+                android:text="Tô com Fome"
+                android:textColor="@color/background"
+                android:textSize="25dp"
+                android:layout_marginStart="130dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_fork_spoon"
+                android:layout_marginTop="66dp"
+                android:layout_marginStart="100dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="Login"
             android:layout_gravity="center"
-            android:textColor="@color/terracota"
+            android:textColor="@color/vermelho_urucum"
             android:layout_marginTop="50dp"/>
     </LinearLayout>
 
@@ -38,13 +62,16 @@
         >
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLoginLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="E-mail" />
+                android:hint="E-mail"
+                android:inputType="text|textEmailAddress|textAutoComplete" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -62,13 +89,17 @@
        >
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passawordLoginLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passawordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Senha" />
+                android:hint="Senha"
+                android:inputType="text|textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
     <LinearLayout
@@ -84,11 +115,11 @@
         android:layout_weight="0.02">
 
         <Button
-            android:id="@+id/logar"
+            android:id="@+id/bt_entrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/laranja"
+            android:backgroundTint="@color/vermelho_urucum"
             android:text="Entrar"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"/>
@@ -100,11 +131,13 @@
         android:layout_weight="0.1">
 
         <TextView
-            android:id="@+id/cadastro"
+            android:id="@+id/cadastrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Não tem cadastro?"
-            android:layout_gravity="center"/>
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
 

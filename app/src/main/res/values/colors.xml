@@ -15,6 +15,8 @@
     <color name="dourado">#E8B845</color>
     <color name="secondary">#EFE7D8</color>
     <color name="background">#FBF8F2</color>
+    <color name="vermelho_triassico">#FF2401</color>
+    <color name="vermelho_urucum">#EC2300</color>
 
 
 </resources>
