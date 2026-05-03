@@ -39,9 +39,8 @@ public class List extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(List.this, R.style.BottomSheetDialogTheme);
-                View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
-                        R.layout.bottom_sheet, (RelativeLayout)findViewById(R.id.bottom_sheet_container)
-                );
+                View bottomSheetView = LayoutInflater.from(List.this)
+                        .inflate(R.layout.bottom_sheet,null);
             bottomSheetDialog.setContentView(bottomSheetView);
             bottomSheetDialog.show();
             }
