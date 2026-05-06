@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -19,13 +21,19 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class List extends AppCompatActivity {
 
     private SQLiteDatabase dataSet;
     private FloatingActionButton botaoadd;
+    private Button botaoSalvar;
+    private TextView texto1, texto2;
+    private TextInputEditText restauranteText, resumoText;
+    private TextInputLayout restauranteLayout, resumoLayout;
+    private RatingBar star;
     private MaterialToolbar toolbar;
-    
 
 
     @Override
@@ -40,9 +48,9 @@ public class List extends AppCompatActivity {
         });
 
         iniciarToolbar();
+        iniciarComponentes();
         criarBancoDados();
-        botaoadd=findViewById(R.id.add);
-        toolbar=findViewById(R.id.toolbarLayout);
+
 
         botaoadd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,12 +59,47 @@ public class List extends AppCompatActivity {
                 View bottomSheetView = LayoutInflater.from(List.this)
                         .inflate(R.layout.bottom_sheet,null);
             bottomSheetDialog.setContentView(bottomSheetView);
+            formulario(bottomSheetView);
             bottomSheetDialog.show();
             }
 
         });
     }
 
+
+    private void formulario(View bottomSheetView) {
+        String card = getIntent().getStringExtra("card");
+        Button botaoSalvar =
+                bottomSheetView.findViewById(R.id.adicionar);
+
+        TextView texto1 =
+                bottomSheetView.findViewById(R.id.text1_sheet);
+
+        TextView texto2 =
+                bottomSheetView.findViewById(R.id.text2_sheet);
+
+
+        if("quero_ir".equals(card)) {
+            botaoSalvar.setBackgroundColor(getColor(R.color.laranja));
+            texto1.setText("Quero ir");
+            texto1.setTextColor(getColor(R.color.terracota));
+            texto2.setText("Novo Restaurante");
+        }
+        else if("ja_fui".equals(card)) {
+            botaoSalvar.setBackgroundColor(getColor(R.color.verde));
+            texto1.setText("Já fui");
+            texto1.setTextColor(getColor(R.color.verde));
+            texto2.setText("Novo Restaurante");
+        }
+        else if("delivery".equals(card)) {
+            botaoSalvar.setBackgroundColor(getColor(R.color.roxo_claro));
+            texto1.setText("Delivery");
+            texto1.setTextColor(getColor(R.color.roxo));
+            texto2.setText("Novo Restaurante");
+        }
+
+
+    }
     public void iniciarToolbar() {
         String card = getIntent().getStringExtra("card");
         MaterialToolbar toolbar = findViewById(R.id.toolbarLayout);
@@ -67,12 +110,12 @@ public class List extends AppCompatActivity {
             toolbar.setTitle("Lista de desejos");
             toolbar.setSubtitle("Restaurantes que quero ir");
             toolbar.setBackground(getDrawable(R.drawable.queroir_gradiente));
+
         }
         else if("ja_fui".equals(card)) {
             toolbar.setTitle("Memorias");
             toolbar.setSubtitle("Lugares que já fui");
             toolbar.setBackground(getDrawable(R.drawable.ja_fui_gradiente));
-
         }
         else if("delivery".equals(card)) {
             toolbar.setTitle("Direto na porta");
@@ -80,6 +123,18 @@ public class List extends AppCompatActivity {
             toolbar.setBackground(getDrawable(R.drawable.delivery_gradiente));
         }
 
+    }
+    private void iniciarComponentes() {
+        botaoadd=findViewById(R.id.add);
+        botaoSalvar = findViewById(R.id.adicionar);
+        texto1 = findViewById(R.id.text1_sheet);
+        texto2 = findViewById(R.id.text2_sheet);
+        restauranteText = findViewById(R.id.nomeRestauranteImput);
+        resumoText = findViewById(R.id.resumoRestauranteInput);
+        restauranteLayout = findViewById(R.id.nomeRestauranteImputLayout);
+        resumoLayout = findViewById(R.id.resumoImputLayout);
+        star = findViewById(R.id.ratingBar);
+        toolbar = findViewById(R.id.toolbarLayout);
     }
 
     //Funcao para criar o banco de dados
