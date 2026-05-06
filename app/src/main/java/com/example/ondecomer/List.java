@@ -1,18 +1,18 @@
 package com.example.ondecomer;
 
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,18 +23,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class List extends AppCompatActivity {
-
-    private SQLiteDatabase dataSet;
+    private SQLiteDatabase dataset;
     private FloatingActionButton botaoadd;
-    private Button botaoSalvar;
-    private TextView texto1, texto2;
-    private TextInputEditText restauranteText, resumoText;
-    private TextInputLayout restauranteLayout, resumoLayout;
-    private RatingBar star;
-    private MaterialToolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +45,6 @@ public class List extends AppCompatActivity {
         iniciarComponentes();
         criarBancoDados();
 
-
         botaoadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,25 +52,35 @@ public class List extends AppCompatActivity {
                 View bottomSheetView = LayoutInflater.from(List.this)
                         .inflate(R.layout.bottom_sheet,null);
             bottomSheetDialog.setContentView(bottomSheetView);
-            formulario(bottomSheetView);
+            formulario(bottomSheetView, bottomSheetDialog);
             bottomSheetDialog.show();
             }
-
         });
     }
 
-
-    private void formulario(View bottomSheetView) {
+    private void formulario(View bottomSheetView, BottomSheetDialog bottomSheetDialog) {
         String card = getIntent().getStringExtra("card");
-        Button botaoSalvar =
-                bottomSheetView.findViewById(R.id.adicionar);
+        Button botaoSalvar = bottomSheetView.findViewById(R.id.adicionar);
+        TextView texto1 = bottomSheetView.findViewById(R.id.text1_sheet);
+        TextView texto2 = bottomSheetView.findViewById(R.id.text2_sheet);
+        TextInputEditText restauranteText = bottomSheetView.findViewById(R.id.nomeRestauranteImput);
+        TextInputEditText resumoText = bottomSheetView.findViewById(R.id.resumoRestauranteInput);
+        RatingBar star = bottomSheetView.findViewById(R.id.ratingBar);
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
 
-        TextView texto1 =
-                bottomSheetView.findViewById(R.id.text1_sheet);
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = restauranteText.getText().toString();
+                String resumo = resumoText.getText().toString();
+                float nota = star.getRating();
+                String categoria = getIntent().getStringExtra("card");
+                String usuarioId = usuario.getUid();
 
-        TextView texto2 =
-                bottomSheetView.findViewById(R.id.text2_sheet);
-
+                salvarRestaurante(nome, resumo, nota, categoria, usuarioId);
+                bottomSheetDialog.dismiss();
+            }
+        });
 
         if("quero_ir".equals(card)) {
             botaoSalvar.setBackgroundColor(getColor(R.color.laranja));
@@ -97,8 +100,40 @@ public class List extends AppCompatActivity {
             texto1.setTextColor(getColor(R.color.roxo));
             texto2.setText("Novo Restaurante");
         }
+    }
+    private void salvarRestaurante(String nome, String resumo, float nota, String categoria, String usuarioId) {
+        try {
+            SQLiteDatabase db = openOrCreateDatabase(
+                    "restaurante",
+                    MODE_PRIVATE,
+                    null
+            );
+            ContentValues values = new ContentValues();
+
+            values.put("nome", nome);
+            values.put("resumo", resumo);
+            values.put("nota", nota);
+            values.put("categoria", categoria);
+            values.put("usuarioId", usuarioId);
+
+            long resultado = db.insert("ondecomer", null, values);
+            if (resultado != -1) {
+
+                Toast.makeText(List.this,
+                        "Salvo com sucesso", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                Toast.makeText(List.this,
+                        "Erro ao salvar", Toast.LENGTH_SHORT).show();
+            }
+            db.close();
 
 
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
     public void iniciarToolbar() {
         String card = getIntent().getStringExtra("card");
@@ -122,31 +157,23 @@ public class List extends AppCompatActivity {
             toolbar.setTitle("Ja pedi no Delivery");
             toolbar.setBackground(getDrawable(R.drawable.delivery_gradiente));
         }
-
     }
     private void iniciarComponentes() {
         botaoadd=findViewById(R.id.add);
-        botaoSalvar = findViewById(R.id.adicionar);
-        texto1 = findViewById(R.id.text1_sheet);
-        texto2 = findViewById(R.id.text2_sheet);
-        restauranteText = findViewById(R.id.nomeRestauranteImput);
-        resumoText = findViewById(R.id.resumoRestauranteInput);
-        restauranteLayout = findViewById(R.id.nomeRestauranteImputLayout);
-        resumoLayout = findViewById(R.id.resumoImputLayout);
-        star = findViewById(R.id.ratingBar);
-        toolbar = findViewById(R.id.toolbarLayout);
     }
-
     //Funcao para criar o banco de dados
     public void criarBancoDados(){
+
         try {
-            dataSet = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
-            dataSet.execSQL("CREATE TABLE IF NOT EXISTS ondecomer (" +
+            dataset = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
+            dataset.execSQL("CREATE TABLE IF NOT EXISTS ondecomer (" +
                     " id INTEGER PRIMARY KEY AUTOINCREMENT" +
-                    ", nome VARCHAR" +
-                    ", observacoes VARCHAR" +
-                    ", categoria VARCHAR)" );
-            dataSet.close();
+                    ", nome TEXT" +
+                    ", resumo TEXT" +
+                    ", categoria TEXT" +
+                    ", nota REAL" +
+                    ", usuarioId TEXT)");
+            dataset.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
