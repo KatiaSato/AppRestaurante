@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+    public static Object View;
     private  CardView queroIr, jaFui, delivery;
     private FirebaseAuth firebaseAuth;
 
@@ -41,9 +42,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(MainActivity.this, List.class);
+                intent1.putExtra("card","quero_ir");
+
                 startActivity(intent1);
             }
         });
+        jaFui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, List.class);
+                intent.putExtra("card", "ja_fui");
+
+                startActivity(intent);
+            }
+        });
+        delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, List.class);
+                intent.putExtra("card", "delivery");
+
+                startActivity(intent);
+            }
+        });
+
 
     }
 }

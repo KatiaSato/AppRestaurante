@@ -13,6 +13,7 @@
         android:theme="@style/Theme.OndeComer">
         <activity
             android:name=".List"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Cadastro"
