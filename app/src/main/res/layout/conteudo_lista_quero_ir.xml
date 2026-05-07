@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_card_view"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/activity_tela_quero_ir"
@@ -23,6 +24,7 @@
             android:layout_marginBottom="10dp" android:text="Restaurante"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
+            android:textSize="20dp"
             />
         <TextView
             android:id="@+id/card_comentario"
@@ -31,7 +33,21 @@
             android:layout_below="@id/card_restaurante"
             android:layout_marginStart="15dp"
             android:layout_marginBottom="10dp"
-            android:text="assunto"/>
+            android:text="assunto"
+            android:textSize="18dp"/>
+
+        <RatingBar
+            android:id="@+id/starRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_comentario"
+            android:layout_alignParentStart="true"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:transformPivotX="16dp"
+            android:isIndicator="true"
+            />
+
 
     </RelativeLayout>
 

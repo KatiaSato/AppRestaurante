@@ -1,6 +1,8 @@
 package com.example.ondecomer.model;
 
-public class Restaurante {
+import java.io.Serializable;
+
+public class Restaurante implements Serializable {
     private int id;
     private String nome;
     private String resumo;
@@ -8,8 +10,26 @@ public class Restaurante {
     private String categoria;
     private String usuarioId;
 
+    public Restaurante(int id, String nome, String resumo, float nota, String categoriaBanco, String usuarioId) {
+        this.id = id;
+        this.nome = nome;
+        this.resumo = resumo;
+        this.nota = nota;
+        this.categoria = categoriaBanco;
+        this.usuarioId = usuarioId;
+
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getNome() {
@@ -46,15 +66,6 @@ public class Restaurante {
 
     public String getUsuarioId() {
         return usuarioId;
-    }
-
-    public Restaurante(int id, String nome, String resumo, float nota, String categoria, String usuarioId) {
-        this.id = id;
-        this.nome = nome;
-        this.resumo = resumo;
-        this.nota = nota;
-        this.categoria = categoria;
-        this.usuarioId = usuarioId;
     }
 
 

@@ -12,9 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     public static Object View;
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         queroIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(MainActivity.this, List.class);
+                Intent intent1 = new Intent(MainActivity.this, Listar.class);
                 intent1.putExtra("card","quero_ir");
 
                 startActivity(intent1);
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         jaFui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, List.class);
+                Intent intent = new Intent(MainActivity.this, Listar.class);
                 intent.putExtra("card", "ja_fui");
 
                 startActivity(intent);
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, List.class);
+                Intent intent = new Intent(MainActivity.this, Listar.class);
                 intent.putExtra("card", "delivery");
 
                 startActivity(intent);

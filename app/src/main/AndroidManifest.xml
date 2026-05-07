@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OndeComer">
         <activity
-            android:name=".List"
+            android:name=".Listar"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
