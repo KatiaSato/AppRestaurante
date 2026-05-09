@@ -31,10 +31,9 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             restaurante = itemView.findViewById(R.id.card_restaurante);
             observacoes = itemView.findViewById(R.id.card_comentario);
             nota = itemView.findViewById(R.id.starRatingBar);
+
         }
     }
-
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,5 +58,13 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         return this.listaRestaurante.size();
     }
 
+    public void deleteItem(int position) {
+        this.listaRestaurante.remove(position);
+        notifyItemRemoved(position);
+    }
 
+    public void addItem(Restaurante restaurante) {
+        listaRestaurante.add(restaurante);
+        notifyDataSetChanged();
+    }
 }

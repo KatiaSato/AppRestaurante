@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/white"
@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/corpo1"
         android:layout_width="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/toolbar_main"
         android:layout_height="wrap_content"
         android:text="Olá!"
         android:layout_marginStart="20dp"

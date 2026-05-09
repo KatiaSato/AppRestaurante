@@ -1,10 +1,15 @@
 package com.example.ondecomer;
 
 import android.content.Intent;
+import android.media.RouteListingPreference;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
+import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -18,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static Object View;
     private  CardView queroIr, jaFui, delivery;
     private FirebaseAuth firebaseAuth;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getSupportActionBar();
+        Toolbar toolbarMain = findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbarMain);
 
         queroIr = findViewById(R.id.card1);
         jaFui = findViewById(R.id.card2);
@@ -63,7 +71,30 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    //funcao cria o menu de opcoes e infla o menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //funcao que faz o item do menu ser seleciona e faz a acao dele
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == R.id.id_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this, "Deslogado com sucesso", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
 
     }
 }

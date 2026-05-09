@@ -26,10 +26,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ondecomer.adapter.RestauranteAdapter;
+import com.example.ondecomer.adapter.SwipeItem;
 import com.example.ondecomer.model.Restaurante;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -48,6 +50,7 @@ public class Listar extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RestauranteAdapter restauranreAdapter;
     private List<Restaurante> list = new ArrayList<>();
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeItem(restauranreAdapter));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,6 @@ public class Listar extends AppCompatActivity {
             toolbar.setBackground(getDrawable(R.drawable.delivery_gradiente));
         }
     }
-
     //Funcao para criar o banco de dados
     public void criarBancoDados(){
 
@@ -138,42 +140,40 @@ public class Listar extends AppCompatActivity {
         restauranreAdapter = new RestauranteAdapter(list);
         recyclerView.setAdapter(restauranreAdapter);
     }
-
     @SuppressLint("ResourceType")
     private void carregarRestaurantes() {
-        //abre banco
-        //faz query
-        //percorre cursor
-        //cria objetos
-        //adiciona na lista
-        //conecta adapter
         ConstraintLayout empty;
         empty= findViewById(R.id.empty);
         SQLiteDatabase db = null;
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         String usuarioid = usuario.getUid();
         String categoria = getIntent().getStringExtra("card");
+        RestauranteAdapter restauranteAdapter = new RestauranteAdapter(list);
+        recyclerView.setAdapter(restauranteAdapter);
+        //Buscar no SQLite
+        //abre banco
+        //faz query
         try {
             db = openOrCreateDatabase(
                     "restaurante",
                     MODE_PRIVATE,
                     null
             );
-
+            //Filtrar pelo usuário + categoria
             Cursor cursor = db.rawQuery(
                     "SELECT * FROM ondecomer WHERE usuarioId = ? AND categoria = ?",
                     new String[]{usuarioid, categoria}
             );
-
             if(cursor.getCount()==0) {
-
                 empty.setVisibility(VISIBLE);
             }else {
-
                 empty.setVisibility(GONE);
-
+                //Criar ArrayList
             ArrayList<Restaurante> listaRestaurantes = new ArrayList<>();
+            list.clear();
+            //percorre cursor
             while (cursor.moveToNext()) {
+                //Pegar os dados
                 int id = cursor.getInt(0);
                 String nome = cursor.getString(1);
                 String resumo = cursor.getString(2);
@@ -181,6 +181,7 @@ public class Listar extends AppCompatActivity {
                 float nota = cursor.getFloat(4);
                 String usuarioId = cursor.getString(5);
 
+                //cria objetos
                 Restaurante restaurante = new Restaurante(
                         id,
                         nome,
@@ -189,26 +190,24 @@ public class Listar extends AppCompatActivity {
                         categoriaBanco,
                         usuarioId
                 );
+                //adiciona na lista
                 listaRestaurantes.add(restaurante);
-
+                //conecta adapter
                 RestauranteAdapter adapter = new RestauranteAdapter(listaRestaurantes);
-
+                //RecyclerView
                 recyclerView.setLayoutManager(new LinearLayoutManager(this)
                 );
-
                 recyclerView.setAdapter(adapter);
+
                 }
-
+                restauranteAdapter.notifyDataSetChanged();
             }
-
         } catch (Exception e) {
 
             e.printStackTrace();
         }
         db.close();
-
     }
-    
     private void formulario(View bottomSheetView, BottomSheetDialog bottomSheetDialog) {
         String card = getIntent().getStringExtra("card");
         Button botaoSalvar = bottomSheetView.findViewById(R.id.adicionar);
@@ -237,7 +236,6 @@ public class Listar extends AppCompatActivity {
                 }
             }
         });
-
         if("quero_ir".equals(card)) {
             botaoSalvar.setBackgroundColor(getColor(R.color.laranja));
             texto1.setText("Quero ir");
@@ -258,6 +256,9 @@ public class Listar extends AppCompatActivity {
         }
     }
     private void salvarRestaurante(String nome, String resumo, float nota, String categoria, String usuarioId) {
+
+        Restaurante restaurante = new Restaurante(0, nome, resumo, nota, categoria, usuarioId);
+
         try {
             SQLiteDatabase db = openOrCreateDatabase(
                     "restaurante",
@@ -273,6 +274,8 @@ public class Listar extends AppCompatActivity {
             values.put("usuarioId", usuarioId);
 
             long resultado = db.insert("ondecomer", null, values);
+
+
             if (resultado != -1) {
 
                 Toast.makeText(Listar.this,
@@ -283,19 +286,19 @@ public class Listar extends AppCompatActivity {
                 Toast.makeText(Listar.this,
                         "Erro ao salvar", Toast.LENGTH_SHORT).show();
             }
+            carregarRestaurantes();
+            restauranreAdapter.addItem(restaurante);
             db.close();
-
-
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
+
     private void editarRestaurante() {
 
-    }
 
-    private void deletarRestaurante() {
+    }
+    private void deleteItem() {
 
     }
 

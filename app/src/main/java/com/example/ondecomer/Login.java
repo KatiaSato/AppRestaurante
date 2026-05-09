@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
                     }catch (FirebaseAuthInvalidCredentialsException e) {
                         erro = "Email inválido ou senha inválido";
                     }catch (Exception e) {
-                        erro = "Erro ao cadastrar usuário";
+                        erro = "Erro";
                     }
                     Toast.makeText(Login.this, erro, Toast.LENGTH_LONG).show();
                 }
