@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SwipeItem extends ItemTouchHelper.SimpleCallback {
     RestauranteAdapter restauranteAdapter;
-    public SwipeItem(RestauranteAdapter restauranteAdapter) {
+    private final OnSwipeListener listener;
+    public SwipeItem(RestauranteAdapter restauranteAdapter, OnSwipeListener listener) {
         super(0, ItemTouchHelper.RIGHT);
         this.restauranteAdapter = restauranteAdapter;
+        this.listener = listener;
     }
 
     @Override
@@ -18,6 +20,10 @@ public class SwipeItem extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAbsoluteAdapterPosition();
-        this.restauranteAdapter.deleteItem(position);
+        listener.onItemSwipe(position);
+    }
+
+    public interface OnSwipeListener {
+        void onItemSwipe(int position);
     }
 }

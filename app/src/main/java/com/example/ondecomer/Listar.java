@@ -5,7 +5,9 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -50,7 +52,8 @@ public class Listar extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RestauranteAdapter restauranreAdapter;
     private List<Restaurante> list = new ArrayList<>();
-    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeItem(restauranreAdapter));
+    ItemTouchHelper itemTouchHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,12 @@ public class Listar extends AppCompatActivity {
             return insets;
         });
 
-        //layout manager, adapter, dataset
 
+        //layout manager, adapter, dataset
         iniciarToolbar();
         iniciarComponentes();
         criarBancoDados();
+        configurarSwipe();
 
         botaoadd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,9 +116,65 @@ public class Listar extends AppCompatActivity {
             toolbar.setBackground(getDrawable(R.drawable.delivery_gradiente));
         }
     }
+    /*
+    public void configurarSwipe() {
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new SwipeItem(restauranreAdapter, new SwipeItem.OnSwipeListener() {
+                    @Override
+                    public void onItemSwipe(int position) {
+                        Restaurante restaurante = list.get(position);
+                        int id = restaurante.getId();
+                        new AlertDialog.Builder(Listar.this).setTitle("Deletar").setMessage("Deseja deletar este restaurate? ").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteRestaurante(id);
+
+                                //carregarRestaurantes();
+                            }
+                        }).show();
+                        restauranreAdapter.deleteItem(position);
+
+                    }
+
+                })
+                );
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+*/
+
+   public void configurarSwipe() {
+
+    itemTouchHelper = new ItemTouchHelper(new SwipeItem(restauranreAdapter, new SwipeItem.OnSwipeListener() {
+        @Override
+        public void onItemSwipe(int position) {
+            // Verifica se a posição é válida para evitar o crash
+            if (position >= 0 && position < list.size()) {
+                Restaurante res = list.get(position);
+                int idParaDeletar = res.getId();
+
+                new AlertDialog.Builder(Listar.this)
+                    .setTitle("Deletar")
+                    .setMessage("Excluir " + res.getNome() + "?")
+                    .setPositiveButton("Sim", (dialog, which) -> {
+                        deleteRestaurante(idParaDeletar); // Deleta no banco
+                        restauranreAdapter.deleteItem(position); // Remove da tela
+                    })
+                    .setNegativeButton("Não", (dialog, which) -> {
+                        restauranreAdapter.notifyItemChanged(position); // Volta o item
+                    })
+                    .setCancelable(false)
+                    .show();
+            }
+        }
+    }));
+    itemTouchHelper.attachToRecyclerView(recyclerView);
+}
+
+
+
     //Funcao para criar o banco de dados
     public void criarBancoDados(){
-
         try {
             dataset = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
             dataset.execSQL("CREATE TABLE IF NOT EXISTS ondecomer (" +
@@ -142,6 +202,46 @@ public class Listar extends AppCompatActivity {
     }
     @SuppressLint("ResourceType")
     private void carregarRestaurantes() {
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        String usuarioid = usuario.getUid();
+        String categoria = getIntent().getStringExtra("card");
+        ConstraintLayout empty = findViewById(R.id.empty);
+
+        try (SQLiteDatabase db = openOrCreateDatabase("restaurante", MODE_PRIVATE, null)) {
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM ondecomer WHERE usuarioId = ? AND categoria = ?",
+                    new String[]{usuarioid, categoria}
+            );
+
+            list.clear(); // Limpa a lista global (a que o adapter usa)
+
+            if (cursor.getCount() == 0) {
+                empty.setVisibility(VISIBLE);
+            } else {
+                empty.setVisibility(GONE);
+                while (cursor.moveToNext()) {
+                    list.add(new Restaurante(
+                            cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getFloat(4),
+                            cursor.getString(3),
+                            cursor.getString(5)
+                    ));
+                }
+            }
+            cursor.close();
+
+            // avise o que já existe que a lista mudou.
+            if (restauranreAdapter != null) {
+                restauranreAdapter.notifyDataSetChanged();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /*private void carregarRestaurantes() {
         ConstraintLayout empty;
         empty= findViewById(R.id.empty);
         SQLiteDatabase db = null;
@@ -198,7 +298,6 @@ public class Listar extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(this)
                 );
                 recyclerView.setAdapter(adapter);
-
                 }
                 restauranteAdapter.notifyDataSetChanged();
             }
@@ -208,6 +307,7 @@ public class Listar extends AppCompatActivity {
         }
         db.close();
     }
+    */
     private void formulario(View bottomSheetView, BottomSheetDialog bottomSheetDialog) {
         String card = getIntent().getStringExtra("card");
         Button botaoSalvar = bottomSheetView.findViewById(R.id.adicionar);
@@ -275,19 +375,17 @@ public class Listar extends AppCompatActivity {
 
             long resultado = db.insert("ondecomer", null, values);
 
-
             if (resultado != -1) {
 
                 Toast.makeText(Listar.this,
                         "Salvo com sucesso", Toast.LENGTH_SHORT).show();
-
             } else {
 
                 Toast.makeText(Listar.this,
                         "Erro ao salvar", Toast.LENGTH_SHORT).show();
             }
             carregarRestaurantes();
-            restauranreAdapter.addItem(restaurante);
+            //restauranreAdapter.addItem(restaurante);
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -296,12 +394,70 @@ public class Listar extends AppCompatActivity {
 
     private void editarRestaurante() {
 
-
     }
-    private void deleteItem() {
+   /* private void deleteRestaurante(int id) {
+        try {
 
-    }
+            SQLiteDatabase db =
+                    openOrCreateDatabase(
+                            "restaurante",
+                            MODE_PRIVATE,
+                            null
+                    );
 
+            int resultado = db.delete(
+                    "ondecomer",
+                    "id = ?",
+                    new String[]{
+                            String.valueOf(id)
+                    }
+            );
 
+            if(resultado > 0) {
 
+                Toast.makeText(
+                        Listar.this,
+                        "Deletado com sucesso",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+            }
+            else {
+
+                Toast.makeText(
+                        Listar.this,
+                        "Erro ao deletar",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            db.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        }
+
+    */
+   private void deleteRestaurante(int id) {
+       try {
+           SQLiteDatabase db = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
+
+           int resultado = db.delete(
+                   "ondecomer",
+                   "id = ?",
+                   new String[]{String.valueOf(id)}
+           );
+
+           if(resultado > 0) {
+               Toast.makeText(this, "Removido do banco!", Toast.LENGTH_SHORT).show();
+           }
+
+           db.close();
+           // A atualização da tela agora é feita pelo restauranreAdapter.deleteItem(position)
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+   }
 }

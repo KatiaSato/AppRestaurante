@@ -5,21 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.ondecomer.R;
 import com.example.ondecomer.model.Restaurante;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.MyViewHolder> {
+public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.MyViewHolder> implements View.OnClickListener {
     private List<Restaurante> listaRestaurante;
 
     public RestauranteAdapter(List<Restaurante> lista) {
         this.listaRestaurante = lista;
+    }
+
+    @Override
+    public void onClick(View v) {
+        
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -31,7 +33,6 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             restaurante = itemView.findViewById(R.id.card_restaurante);
             observacoes = itemView.findViewById(R.id.card_comentario);
             nota = itemView.findViewById(R.id.starRatingBar);
-
         }
     }
     @NonNull
@@ -49,7 +50,6 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         holder.restaurante.setText(restaurante.getNome());
         holder.observacoes.setText(restaurante.getResumo());
         holder.nota.setRating(restaurante.getNota());
-
     }
 
     //quantidade de tarefas
@@ -58,13 +58,25 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         return this.listaRestaurante.size();
     }
 
-    public void deleteItem(int position) {
-        this.listaRestaurante.remove(position);
-        notifyItemRemoved(position);
+    public void updateItem(int position, Restaurante restaurante) {
+        this.listaRestaurante.set(position, restaurante);
+        notifyItemChanged(position);
     }
 
+    public void deleteItem(int position) {
+        if (position >= 0 && position < listaRestaurante.size()) {
+            listaRestaurante.remove(position);
+            notifyItemRemoved(position);
+            //notifyItemRangeChanged(position, listaRestaurante.size());
+        }
+    }
+    
+    //notifyItemRangeChanged(); alterado em sequencia
     public void addItem(Restaurante restaurante) {
+        int nextIndex = listaRestaurante.toArray().length;
         listaRestaurante.add(restaurante);
-        notifyDataSetChanged();
+        //notifyItemInserted();
+        //notifyDataSetChanged(restaurante); atualiza o data set
     }
 }
+//notifyItemInserted(listaRestaurante.size()-1); //atualiza unico dado alterado
