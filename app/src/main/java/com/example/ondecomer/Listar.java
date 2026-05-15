@@ -7,17 +7,15 @@ import static android.view.View.VISIBLE;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +52,6 @@ public class Listar extends AppCompatActivity {
     private List<Restaurante> list = new ArrayList<>();
     ItemTouchHelper itemTouchHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +63,6 @@ public class Listar extends AppCompatActivity {
             return insets;
         });
 
-
         //layout manager, adapter, dataset
         iniciarToolbar();
         iniciarComponentes();
@@ -74,13 +70,14 @@ public class Listar extends AppCompatActivity {
         configurarSwipe();
 
         botaoadd.setOnClickListener(new View.OnClickListener() {
+            Restaurante restaurante;
             @Override
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Listar.this, R.style.BottomSheetDialogTheme);
                 View bottomSheetView = LayoutInflater.from(Listar.this)
                         .inflate(R.layout.bottom_sheet,null);
             bottomSheetDialog.setContentView(bottomSheetView);
-            formulario(bottomSheetView, bottomSheetDialog);
+            formulario(bottomSheetView, bottomSheetDialog, restaurante);
             bottomSheetDialog.show();
             }
         });
@@ -116,32 +113,6 @@ public class Listar extends AppCompatActivity {
             toolbar.setBackground(getDrawable(R.drawable.delivery_gradiente));
         }
     }
-    /*
-    public void configurarSwipe() {
-        ItemTouchHelper itemTouchHelper =
-                new ItemTouchHelper(new SwipeItem(restauranreAdapter, new SwipeItem.OnSwipeListener() {
-                    @Override
-                    public void onItemSwipe(int position) {
-                        Restaurante restaurante = list.get(position);
-                        int id = restaurante.getId();
-                        new AlertDialog.Builder(Listar.this).setTitle("Deletar").setMessage("Deseja deletar este restaurate? ").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteRestaurante(id);
-
-                                //carregarRestaurantes();
-                            }
-                        }).show();
-                        restauranreAdapter.deleteItem(position);
-
-                    }
-
-                })
-                );
-
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-*/
 
    public void configurarSwipe() {
 
@@ -171,8 +142,6 @@ public class Listar extends AppCompatActivity {
     itemTouchHelper.attachToRecyclerView(recyclerView);
 }
 
-
-
     //Funcao para criar o banco de dados
     public void criarBancoDados(){
         try {
@@ -197,8 +166,29 @@ public class Listar extends AppCompatActivity {
         //fixa o tamanho da RecyclerView
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-        restauranreAdapter = new RestauranteAdapter(list);
+        restauranreAdapter = new RestauranteAdapter(list, new RestauranteAdapter.OnItemClickListener() {
+            @Override
+            public void onclick(Restaurante restaurante) {
+                Log.i("Click", restaurante.getNome());
+                abrirBottomSheet(restaurante);
+            }
+        });
         recyclerView.setAdapter(restauranreAdapter);
+    }
+    private void abrirBottomSheet(Restaurante restaurante) {
+
+        BottomSheetDialog bottomSheetDialog =
+                new BottomSheetDialog(Listar.this,
+                        R.style.BottomSheetDialogTheme);
+
+        View bottomSheetView = LayoutInflater.from(Listar.this)
+                .inflate(R.layout.bottom_sheet, null);
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        formulario(bottomSheetView, bottomSheetDialog, restaurante);
+
+        bottomSheetDialog.show();
     }
     @SuppressLint("ResourceType")
     private void carregarRestaurantes() {
@@ -241,74 +231,7 @@ public class Listar extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    /*private void carregarRestaurantes() {
-        ConstraintLayout empty;
-        empty= findViewById(R.id.empty);
-        SQLiteDatabase db = null;
-        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-        String usuarioid = usuario.getUid();
-        String categoria = getIntent().getStringExtra("card");
-        RestauranteAdapter restauranteAdapter = new RestauranteAdapter(list);
-        recyclerView.setAdapter(restauranteAdapter);
-        //Buscar no SQLite
-        //abre banco
-        //faz query
-        try {
-            db = openOrCreateDatabase(
-                    "restaurante",
-                    MODE_PRIVATE,
-                    null
-            );
-            //Filtrar pelo usuário + categoria
-            Cursor cursor = db.rawQuery(
-                    "SELECT * FROM ondecomer WHERE usuarioId = ? AND categoria = ?",
-                    new String[]{usuarioid, categoria}
-            );
-            if(cursor.getCount()==0) {
-                empty.setVisibility(VISIBLE);
-            }else {
-                empty.setVisibility(GONE);
-                //Criar ArrayList
-            ArrayList<Restaurante> listaRestaurantes = new ArrayList<>();
-            list.clear();
-            //percorre cursor
-            while (cursor.moveToNext()) {
-                //Pegar os dados
-                int id = cursor.getInt(0);
-                String nome = cursor.getString(1);
-                String resumo = cursor.getString(2);
-                String categoriaBanco = cursor.getString(3);
-                float nota = cursor.getFloat(4);
-                String usuarioId = cursor.getString(5);
-
-                //cria objetos
-                Restaurante restaurante = new Restaurante(
-                        id,
-                        nome,
-                        resumo,
-                        nota,
-                        categoriaBanco,
-                        usuarioId
-                );
-                //adiciona na lista
-                listaRestaurantes.add(restaurante);
-                //conecta adapter
-                RestauranteAdapter adapter = new RestauranteAdapter(listaRestaurantes);
-                //RecyclerView
-                recyclerView.setLayoutManager(new LinearLayoutManager(this)
-                );
-                recyclerView.setAdapter(adapter);
-                }
-                restauranteAdapter.notifyDataSetChanged();
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        db.close();
-    }
-    */
-    private void formulario(View bottomSheetView, BottomSheetDialog bottomSheetDialog) {
+    private void formulario(View bottomSheetView, BottomSheetDialog bottomSheetDialog, Restaurante restaurante) {
         String card = getIntent().getStringExtra("card");
         Button botaoSalvar = bottomSheetView.findViewById(R.id.adicionar);
         TextView texto1 = bottomSheetView.findViewById(R.id.text1_sheet);
@@ -319,41 +242,67 @@ public class Listar extends AppCompatActivity {
         RatingBar star = bottomSheetView.findViewById(R.id.ratingBar);
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
 
-        botaoSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nome = restauranteText.getText().toString();
-                String resumo = resumoText.getText().toString();
-                float nota = star.getRating();
-                String categoria = getIntent().getStringExtra("card");
-                String usuarioId = usuario.getUid();
-
-                if(nome.isEmpty()){
-                    nomeLayout.setError("O nome do Restaurante é obrigatorio");
-                }else {
-                    salvarRestaurante(nome, resumo, nota, categoria, usuarioId);
-                    bottomSheetDialog.dismiss();
-                }
-            }
-        });
+        // Configura as cores baseadas na categoria
         if("quero_ir".equals(card)) {
             botaoSalvar.setBackgroundColor(getColor(R.color.laranja));
             texto1.setText("Quero ir");
             texto1.setTextColor(getColor(R.color.terracota));
-            texto2.setText("Novo Restaurante");
-        }
-        else if("ja_fui".equals(card)) {
+        } else if("ja_fui".equals(card)) {
             botaoSalvar.setBackgroundColor(getColor(R.color.verde));
             texto1.setText("Já fui");
             texto1.setTextColor(getColor(R.color.verde));
-            texto2.setText("Novo Restaurante");
-        }
-        else if("delivery".equals(card)) {
+        } else if("delivery".equals(card)) {
             botaoSalvar.setBackgroundColor(getColor(R.color.roxo_claro));
             texto1.setText("Delivery");
             texto1.setTextColor(getColor(R.color.roxo));
-            texto2.setText("Novo Restaurante");
         }
+
+        // SE O RESTAURANTE NÃO FOR NULL, SIGNIFICA QUE É UMA EDIÇÃO!
+        // Preenchemos os campos imediatamente antes do usuário interagir.
+        if (restaurante != null) {
+            texto2.setText("Editar Restaurante");
+            botaoSalvar.setText("Atualizar");
+
+            // Coloca os dados atuais do restaurante nos inputs da tela
+            restauranteText.setText(restaurante.getNome());
+            resumoText.setText(restaurante.getResumo());
+            star.setRating(restaurante.getNota());
+        } else {
+            // Se for nulo, é um novo cadastro
+            texto2.setText("Novo Restaurante");
+            botaoSalvar.setText("Salvar");
+        }
+
+        botaoSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nomeDigitado = restauranteText.getText().toString();
+                String resumoDigitado = resumoText.getText().toString();
+                float notaSelecionada = star.getRating();
+                String categoria = getIntent().getStringExtra("card");
+                String usuarioId = usuario.getUid();
+
+                if (nomeDigitado.isEmpty()) {
+                    nomeLayout.setError("O nome do Restaurante é obrigatório");
+                    return; // Para a execução aqui se estiver vazio
+                }
+
+                if (restaurante != null) {
+                    restaurante.setNome(nomeDigitado);
+                    restaurante.setResumo(resumoDigitado);
+                    restaurante.setNota(notaSelecionada);
+
+                    editarRestaurante(nomeDigitado, resumoDigitado, notaSelecionada, categoria, usuarioId, restaurante.getId());
+                    // Atualiza a listagem
+                    carregarRestaurantes();
+
+                } else {
+                    salvarRestaurante(nomeDigitado, resumoDigitado, notaSelecionada, categoria, usuarioId);
+                }
+                // Fecha o formulário após salvar ou atualizar
+                bottomSheetDialog.dismiss();
+            }
+        });
     }
     private void salvarRestaurante(String nome, String resumo, float nota, String categoria, String usuarioId) {
 
@@ -392,54 +341,28 @@ public class Listar extends AppCompatActivity {
         }
     }
 
-    private void editarRestaurante() {
-
-    }
-   /* private void deleteRestaurante(int id) {
+    private void editarRestaurante(String nome, String resumo, float nota, String categoria, String usuarioId, int id) {
         try {
+            SQLiteDatabase db = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
+            ContentValues values = new ContentValues();
 
-            SQLiteDatabase db =
-                    openOrCreateDatabase(
-                            "restaurante",
-                            MODE_PRIVATE,
-                            null
-                    );
-
-            int resultado = db.delete(
-                    "ondecomer",
-                    "id = ?",
-                    new String[]{
-                            String.valueOf(id)
-                    }
-            );
-
+            values.put("nome", nome);
+            values.put("resumo", resumo);
+            values.put("nota", nota);
+            values.put("categoria", categoria);
+            values.put("usuarioId", usuarioId);
+            int resultado =
+            db.update("ondecomer", values, "id = ?",new String[]{String.valueOf(id)});
             if(resultado > 0) {
-
-                Toast.makeText(
-                        Listar.this,
-                        "Deletado com sucesso",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(this, "Atualizado com sucesso", Toast.LENGTH_SHORT).show();
             }
-            else {
-
-                Toast.makeText(
-                        Listar.this,
-                        "Erro ao deletar",
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-
             db.close();
-
-        } catch (Exception e) {
-
+            carregarRestaurantes();
+        }catch (Exception e) {
             e.printStackTrace();
         }
-        }
+    }
 
-    */
    private void deleteRestaurante(int id) {
        try {
            SQLiteDatabase db = openOrCreateDatabase("restaurante", MODE_PRIVATE, null);
@@ -451,7 +374,7 @@ public class Listar extends AppCompatActivity {
            );
 
            if(resultado > 0) {
-               Toast.makeText(this, "Removido do banco!", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, "Removido com sucesso!", Toast.LENGTH_SHORT).show();
            }
 
            db.close();

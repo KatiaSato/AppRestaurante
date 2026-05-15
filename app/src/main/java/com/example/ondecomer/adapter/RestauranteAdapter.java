@@ -3,6 +3,7 @@ package com.example.ondecomer.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,19 +13,19 @@ import com.example.ondecomer.model.Restaurante;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.MyViewHolder> implements View.OnClickListener {
+public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.MyViewHolder> {
     private List<Restaurante> listaRestaurante;
-
-    public RestauranteAdapter(List<Restaurante> lista) {
+    private OnItemClickListener click;
+    public RestauranteAdapter(List<Restaurante> lista, OnItemClickListener click) {
         this.listaRestaurante = lista;
+        this.click = click;
     }
 
-    @Override
-    public void onClick(View v) {
-        
+    public interface OnItemClickListener {
+        void onclick(Restaurante restaurante);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView restaurante, observacoes;
         RatingBar nota;
         public MyViewHolder(@NonNull View itemView) {
@@ -33,6 +34,16 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             restaurante = itemView.findViewById(R.id.card_restaurante);
             observacoes = itemView.findViewById(R.id.card_comentario);
             nota = itemView.findViewById(R.id.starRatingBar);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAbsoluteAdapterPosition();
+            if(position != RecyclerView.NO_POSITION) {
+                Restaurante restauranteSecelcionado =  listaRestaurante.get(position);
+                click.onclick(restauranteSecelcionado);
+            }
         }
     }
     @NonNull
